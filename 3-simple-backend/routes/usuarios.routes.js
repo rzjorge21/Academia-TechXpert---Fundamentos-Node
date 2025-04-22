@@ -1,9 +1,18 @@
 const express = require('express')
 const router = express.Router();
+const db = require('../db/connection');
 
 
 router.get("/", (req, res)=>{
-  res.send("Este es el listado de todos los usuarios")
+  const query = 'SELECT * FROM country;'
+  db.query(query, (err, results) => {
+    if(err){
+      console.error('ERROR AL OBTENER RESULTADOS', err.message);
+      return res.status(500).json({error: 'error del servidor'})
+    }
+    res.json(results)
+  })
+  // res.send("Este es el listado de todos los usuarios")
 })
 
 router.post("/", (req, res)=>{
